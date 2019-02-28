@@ -1,0 +1,6 @@
+---
+- name: 'Adiciona usuários'
+  import_tasks: users.yml
+
+- name: 'Aplica configurações base'
+  import_tasks: conf.yml

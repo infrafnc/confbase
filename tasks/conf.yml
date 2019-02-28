@@ -1,0 +1,19 @@
+---
+- name: 'Atualiza o Sistema Operacional'
+  command: yum update
+
+- name: 'Desabilitar SElinux'
+  selinux:
+    state: disabled
+
+- name: 'Desabilita Firewall'
+  service:
+    name: firewalld
+    state: stopped
+    enabled: no
+
+#- name: 'Adiciona o grupo infra no sudoers'
+#  lineinfile:
+#    path: /etc/sudoers
+#    regexp: '^%wheel'
+#    line: '%infra ALL=(ALL) NOPASSWD: ALL'
