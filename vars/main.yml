@@ -1,2 +1,10 @@
 ---
-# vars file for confbase
+devuser:
+  - { id: 'lrocha', nome: 'Leandro Rocha' }
+  - { id: 'eamaro', nome: 'Erick Amaro' }
+  - { id: 'rsouza', nome: 'Robson Souza' }
+
+infrauser:
+  - { id: 'rvicente', nome: 'Ricardo Vicente' }
+  - { id: 'kcruz', nome: 'Kaique Cruz' }
+  - { id: 'rgarcia', nome: 'Roni Garcia' }
