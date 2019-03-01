@@ -3,50 +3,42 @@
   group:
     name: infra
     state: present
+  tags: user
 
 - name: Adiciona usuarios Infra
   user:
     name="{{ item.id }}" state=present groups=infra shell=/bin/bash comment="{{ item.nome }}"
-  with_items:
-    - { id: 'rvicente', nome: 'Ricardo Vicente' }
-    - { id: 'kcruz', nome: 'Kaique Cruz' }
-    - { id: 'rgarcia', nome: 'Roni Garcia' }
+  with_items: "{{ infrauser }}"
   become: yes
+  tags: user
 
 - name: Adiciona grupo dev
   group:
     name: dev
     state: present
+  tags: user
 
 - name: Adiciona usuarios dev
   user:
-    name="{{ item }}" state=present groups=dev shell=/bin/bash comment="{{ item.nome }}"
-  with_items:
-    - { id: 'lrocha', nome: 'Leandro Rocha' }
-    - { id: 'eamaro', nome: 'Erick Amaro' }
-    - { id: 'rsouza', nome: 'Robson Souza' }
+    name="{{ item.id }}" state=present groups=dev shell=/bin/bash comment="{{ item.nome }}"
+  with_items: "{{ devuser }}"
+  tags: user
   become: yes
 
 - name: criar pasta ssh
-  file: path=/home/{{ item }}/.ssh state=directory owner={{ item }}
+  file: path=/home/{{ item.id }}/.ssh state=directory owner={{ item.id }}
   with_items:
-    - lrocha
-    - kcruz
-    - rgarcia
-    - eamaro
-    - rvicente
-    - rsouza
+    - "{{ infrauser }}"
+    - "{{ devuser }}"
   become: yes
+  tags: user
 
 - name: copiar chaves para servidor
   copy:
-    src: /public_key/{{ item }}.txt
-    dest: /home/{{ item }}/.ssh/authorized_keys
+    src: /public_key/{{ item.id }}.txt
+    dest: /home/{{ item.id }}/.ssh/authorized_keys
   with_items:
-    - lrocha
-    - rvicente
-    - kcruz
-    - rgarcia
-    - eamaro
-    - rsouza
+    - "{{ infrauser }}"
+    - "{{ devuser }}"
   become: yes
+  tags: user
