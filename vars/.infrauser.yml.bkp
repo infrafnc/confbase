@@ -1,0 +1,5 @@
+---
+infrauser:
+  - { id: 'rvicente', nome: 'Ricardo Vicente' }
+  - { id: 'kcruz', nome: 'Kaique Cruz' }
+  - { id: 'rgarcia', nome: 'Roni Garcia' }

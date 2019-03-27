@@ -5,7 +5,7 @@
     state: present
   tags: user
 
-- name: Adiciona usuarios Infra
+- name: Adiciona usuarios de infraestrutura
   user:
     name="{{ item.id }}" state=present groups=infra shell=/bin/bash comment="{{ item.nome }}"
   with_items: "{{ infrauser }}"
@@ -18,14 +18,14 @@
     state: present
   tags: user
 
-- name: Adiciona usuarios dev
+- name: Adiciona usuarios de desenvolvimento
   user:
     name="{{ item.id }}" state=present groups=dev shell=/bin/bash comment="{{ item.nome }}"
   with_items: "{{ devuser }}"
   tags: user
   become: yes
 
-- name: criar pasta ssh
+- name: Cria pasta ssh
   file: path=/home/{{ item.id }}/.ssh state=directory owner={{ item.id }}
   with_items:
     - "{{ infrauser }}"
@@ -33,12 +33,19 @@
   become: yes
   tags: user
 
-- name: copiar chaves para servidor
+- name: Copia chaves para servidor
   copy:
     src: /public_key/{{ item.id }}.txt
     dest: /home/{{ item.id }}/.ssh/authorized_keys
   with_items:
     - "{{ infrauser }}"
     - "{{ devuser }}"
+  become: yes
+  tags: user
+
+- name: Copia arquivo de permissão do grupo infra para o sudoers.d
+  copy:
+    src: files/infra_sudoers
+    dest: /etc/sudoers.d
   become: yes
   tags: user
